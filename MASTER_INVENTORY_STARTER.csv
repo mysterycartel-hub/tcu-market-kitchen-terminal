@@ -1,0 +1,33 @@
+Category,Name,District,Status,Notes
+Brand Asset,MS Crown Primary Logo,Founder Island,Canon,Purple MS crown logo — established founder mark
+Identity,Maurice Scott / MysterMyself,Founder Island,Canon,Top-level identity
+World,Scott-King Coast,All Districts,Canon,Ecosystem map — not parent brand
+Storage,Library Vault,Library Vault,Active,Single inventory and source storage area
+Character,Trading Chef,Market Marina,Canon,Main market education character
+Character,Chef Goldie,Market Marina,Canon,TCU character
+Character,Candle Kid,Market Marina,Canon,Trading Chef Kids / chart education
+Character,Wickie,Market Marina,Canon,Candlestick coach
+Character,Louie the Liquidity Chef,Market Marina,Canon,Liquidity education
+Character,Grandma Market,Market Marina,Canon,Foundational wisdom coach — first unlocked at 80 XP in TCU Terminal
+Character,Rico Rhythm,Market Marina,Canon,Timing / rhythm coach
+Character,Melissa Mayhem,Market Marina,Canon,Risk management coach
+Character,Melody Mayhem,Market Marina,Canon,Emotional discipline coach
+Character,Penny / Angel Stacks,Market Marina,Canon,Capital protection coach
+Character,Nana Value,Market Marina,Canon,Value-based thinking coach
+Character,Burn Alarm,Market Marina,Canon,Overtrading warning system
+Character,Profit Plate,Market Marina,Canon,Target / reward coach
+Character,Mr. Stocks,Market Marina,Canon,Equities coach
+Brand,MysterMyself,Founder Island,Active,Top-level personal brand
+Brand,MS Crown,Founder Island,Active,Founder visual mark
+Brand,Trading Chef,Market Marina,Active,Market education character brand
+Brand,Trading Chef Kids / Junior Market Kitchen,Market Marina,Active,Youth education sub-brand
+Brand,Breaded Or Not?!,Flavor District,Active,Food brand
+Brand,Courier Income Lab,Route Harbor,Active,Courier and logistics education
+Product,Newsletter Ready Desk,Blueprint Bay,Active,Newsletter service system
+Product,Opportunity List,Creator Pier,Active,Newsletter and audience engine
+Platform,TCU Market Kitchen Terminal,Market Marina,In Progress,Trading education terminal — Next.js 16 / Supabase / Vercel
+Platform,TCU Trading Platform,Market Marina,Partially Built,Full trading education platform
+Platform,TCU Academy,Market Marina,Planned,Structured course platform
+Platform,Remotion Video Factory,Creator Pier,Planned,Repeatable content and video factory
+Platform,Fantasy Island Hub,Fantasy Island,Planned,Fantasy football rankings and Draft Bible
+Platform,MysterMyself Website,Founder Island,Active,Main personal brand website

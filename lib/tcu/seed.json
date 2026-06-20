@@ -1,0 +1,14 @@
+{
+  "users": [
+    { "id": "user-1", "email": "chef@tcu.test" }
+  ],
+  "profiles": [
+    { "id": "profile-1", "user_id": "user-1", "display_name": "Chef Maurice", "xp": 1200, "rank": "Head Chef" }
+  ],
+  "missions": [
+    { "id": "m-1", "title": "Read the Bias", "description": "Identify kitchen direction", "xp_reward": 50 }
+  ],
+  "characters": [
+    { "id": "c-1", "name": "Chef Maurice", "role": "Trading Chef", "emoji": "👨‍🍳", "desc": "Discipline & clean setups" }
+  ]
+}
