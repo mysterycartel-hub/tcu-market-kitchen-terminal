@@ -33,13 +33,13 @@ export const CHARACTER_IMAGE_SOURCES: Record<string, string> = {
   "Melody Mayhem": "/tcu/characters/melissa-mayhem.png",
   "Grandma Market": "/tcu/characters/grandma-market.png",
   "Nana Value": "/tcu/characters/penny-the-saver.png",
-  "Trading Chef / Chef Maurice": "/tcu/brand/ms-logo.png",
-  "Trading Chef": "/tcu/brand/ms-logo.png",
-  "Chef Maurice": "/tcu/brand/ms-logo.png",
+  "Trading Chef / Chef Maurice": "/tcu/brand/ms-logo.svg",
+  "Trading Chef": "/tcu/brand/ms-logo.svg",
+  "Chef Maurice": "/tcu/brand/ms-logo.svg",
 };
 
 export const BRAND_IMAGE_SOURCES = {
-  logo: "/tcu/brand/ms-logo.png",
+  logo: "/tcu/brand/ms-logo.svg",
   crown: "/tcu/brand/ms-crown.png",
 };
 
