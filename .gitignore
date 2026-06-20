@@ -39,3 +39,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+MYSTERMYSELF_SOURCE_OF_TRUTH/
