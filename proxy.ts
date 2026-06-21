@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 
 // Refreshes the Supabase session cookie on every request so tokens never
 // expire mid-session. Skips gracefully when env vars are not configured.
-export async function proxy(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   if (
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
     !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
