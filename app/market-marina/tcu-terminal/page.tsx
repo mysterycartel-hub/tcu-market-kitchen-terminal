@@ -132,8 +132,8 @@ export default function MarketKitchenTerminalPage() {
         marketTitle={kitchenConfig.title}
         marketSubtitle={kitchenConfig.subtitle}
         focusCharacters={kitchenConfig.focusCharacters}
-        onChefRead={() => void 0}
-        onChecklist={() => void 0}
+        onChefRead={() => setActiveTab("Chart Read")}
+        onChecklist={() => setActiveTab("Prep Orders")}
         showNav={false}
       />
 

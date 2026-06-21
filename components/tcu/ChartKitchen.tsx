@@ -30,7 +30,7 @@ export default function ChartKitchen({
   onClear,
   timeframe,
   onTimeframeChange,
-  selectedRoadmap: _selectedRoadmap,
+  selectedRoadmap,
   onRoadmapToggle: _onRoadmapToggle,
   missingSteps: _missingSteps,
   selectedSymbol,
@@ -107,9 +107,9 @@ export default function ChartKitchen({
               </div>
             )
           ) : isPracticeMode ? (
-            <PracticeChart />
+            <PracticeChart checkedSteps={selectedRoadmap} />
           ) : (
-            <LiveTradingViewChart key={`${selectedSymbol.ticker}-live`} ticker={selectedSymbol.ticker} interval="15" height="100%" />
+            <LiveTradingViewChart key={`${selectedSymbol.ticker}-${timeframe}-live`} ticker={selectedSymbol.ticker} interval={timeframe} height="100%" />
           )}
 
           {!isPracticeMode && !isUploadMode && (
