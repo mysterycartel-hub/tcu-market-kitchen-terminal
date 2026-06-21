@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { createServerSupabaseClient, isSupabaseServerConfigured } from "@/lib/supabase/server";
+
+const NOT_CONFIGURED = NextResponse.json(
+  { error: "Supabase is not configured. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your Vercel environment to enable trade plan saving." },
+  { status: 503 },
+);
 
 // GET /api/trade-plans — return all trade plans for the authenticated user
 export async function GET() {
+  if (!isSupabaseServerConfigured()) return NOT_CONFIGURED;
   try {
     const supabase = await createServerSupabaseClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -25,6 +31,7 @@ export async function GET() {
 
 // POST /api/trade-plans — save a new trade plan
 export async function POST(request: NextRequest) {
+  if (!isSupabaseServerConfigured()) return NOT_CONFIGURED;
   try {
     const supabase = await createServerSupabaseClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();

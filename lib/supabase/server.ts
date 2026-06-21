@@ -2,6 +2,12 @@ import { createServerClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
+export function isSupabaseServerConfigured(): boolean {
+  return Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  );
+}
+
 // Server-side Supabase client — use in Server Components, Route Handlers, Middleware.
 // Database generic intentionally omitted; use `npx supabase gen types typescript` to generate
 // and apply precise types once the project is wired to a live Supabase project.
