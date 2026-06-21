@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="12" fill="#4c0519"/>
+  <circle cx="32" cy="31" r="17" fill="#fda4af"/>
+  <!-- Wild hair -->
+  <ellipse cx="16" cy="20" rx="6" ry="9" fill="#e11d48" transform="rotate(-20 16 20)"/>
+  <ellipse cx="32" cy="13" rx="6" ry="8" fill="#fb7185"/>
+  <ellipse cx="48" cy="20" rx="6" ry="9" fill="#e11d48" transform="rotate(20 48 20)"/>
+  <ellipse cx="22" cy="16" rx="4" ry="7" fill="#f43f5e" transform="rotate(-10 22 16)"/>
+  <ellipse cx="42" cy="16" rx="4" ry="7" fill="#f43f5e" transform="rotate(10 42 16)"/>
+  <!-- Face -->
+  <circle cx="26" cy="30" r="2.5" fill="#4c0519"/>
+  <circle cx="38" cy="30" r="2.5" fill="#4c0519"/>
+  <!-- Mischievous smile -->
+  <path d="M24 37 Q28 42 32 38 Q36 42 40 37" stroke="#9f1239" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Chaos sparks -->
+  <text x="10" y="58" font-family="system-ui" font-size="10" fill="#f43f5e">⚡</text>
+  <text x="44" y="58" font-family="system-ui" font-size="10" fill="#fb7185">⚡</text>
+</svg>

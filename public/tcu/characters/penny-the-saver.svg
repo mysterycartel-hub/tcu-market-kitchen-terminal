@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="12" fill="#312e81"/>
+  <circle cx="32" cy="31" r="17" fill="#c4b5fd"/>
+  <!-- Silver hair -->
+  <ellipse cx="32" cy="18" rx="13" ry="7" fill="#a5b4fc"/>
+  <!-- Face -->
+  <circle cx="26" cy="31" r="2.5" fill="#312e81"/>
+  <circle cx="38" cy="31" r="2.5" fill="#312e81"/>
+  <circle cx="27" cy="30" r="1" fill="white"/>
+  <circle cx="39" cy="30" r="1" fill="white"/>
+  <path d="M26 38 Q32 43 38 38" stroke="#4338ca" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Piggy bank coin slot -->
+  <ellipse cx="32" cy="52" rx="10" ry="8" fill="#818cf8"/>
+  <rect x="28" y="46" width="8" height="2" rx="1" fill="#312e81"/>
+  <text x="32" y="57" font-family="system-ui" font-size="8" font-weight="900" text-anchor="middle" fill="#312e81">$</text>
+</svg>

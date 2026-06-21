@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="12" fill="#14532d"/>
+  <circle cx="32" cy="31" r="17" fill="#bbf7d0"/>
+  <!-- Silver hair bun -->
+  <ellipse cx="32" cy="16" rx="13" ry="8" fill="#e2e8f0"/>
+  <circle cx="32" cy="12" rx="7" ry="6" fill="#f1f5f9"/>
+  <!-- Face -->
+  <circle cx="26" cy="31" r="2" fill="#14532d"/>
+  <circle cx="38" cy="31" r="2" fill="#14532d"/>
+  <!-- Wise smile -->
+  <path d="M25 38 Q32 44 39 38" stroke="#166534" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Glasses -->
+  <circle cx="26" cy="31" r="4.5" fill="none" stroke="#6b7280" stroke-width="1.5"/>
+  <circle cx="38" cy="31" r="4.5" fill="none" stroke="#6b7280" stroke-width="1.5"/>
+  <line x1="30.5" y1="31" x2="33.5" y2="31" stroke="#6b7280" stroke-width="1.5"/>
+  <!-- Chart wisdom symbol -->
+  <polyline points="8,58 16,50 24,54 32,46 40,52 48,44 56,48" stroke="#22c55e" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

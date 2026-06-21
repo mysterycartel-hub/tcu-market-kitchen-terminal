@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="12" fill="#164e63"/>
+  <circle cx="32" cy="30" r="18" fill="#67e8f9"/>
+  <ellipse cx="32" cy="20" rx="12" ry="4" fill="#22d3ee"/>
+  <ellipse cx="32" cy="14" rx="8" ry="7" fill="#a5f3fc"/>
+  <circle cx="26" cy="29" r="2.5" fill="#083344"/>
+  <circle cx="38" cy="29" r="2.5" fill="#083344"/>
+  <circle cx="27" cy="28" r="1" fill="white"/>
+  <circle cx="39" cy="28" r="1" fill="white"/>
+  <path d="M27 36 Q32 41 37 36" stroke="#0891b2" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Liquidity wave -->
+  <path d="M8 54 Q16 49 24 54 Q32 59 40 54 Q48 49 56 54" stroke="#22d3ee" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M8 58 Q16 53 24 58 Q32 63 40 58 Q48 53 56 58" stroke="#67e8f9" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>

@@ -49,17 +49,19 @@ export default function TopMarketBar({
         {/* Left: Brand */}
         <div className="flex items-center gap-4 min-w-0 flex-shrink-0">
           <div className="flex flex-col gap-1">
-            <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-lg border border-violet-400/40 bg-gradient-to-br from-violet-600 to-fuchsia-600 shadow-lg shadow-purple-900/60">
+            <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-lg border border-amber-400/40 bg-slate-950 shadow-lg shadow-amber-900/30">
               <img
                 src={BRAND_IMAGE_SOURCES.logo}
-                alt="MysterMyself logo"
-                className="h-full w-full object-cover"
+                alt="TCU logo"
+                className="h-full w-full object-contain"
                 onError={(event) => {
                   const target = event.currentTarget;
                   target.style.display = "none";
+                  const fallback = target.nextElementSibling as HTMLElement | null;
+                  if (fallback) fallback.style.display = "flex";
                 }}
               />
-              <span className="absolute text-xs font-black tracking-[0.35em] text-white">MS</span>
+              <span className="absolute hidden items-center justify-center text-[10px] font-black tracking-widest text-amber-300">TCU</span>
             </div>
             <span className="text-[8px] uppercase tracking-[0.2em] text-violet-400 font-extrabold text-center">MysterMyself</span>
           </div>
