@@ -12,6 +12,18 @@ if (process.env.CI_SKIP_ENV_VALIDATE === 'true') {
   process.exit(0)
 }
 
+// Skip validation on Vercel preview deployments (env vars may not be set for PRs)
+if (process.env.VERCEL_ENV === 'preview') {
+  console.log('⏭  ENV validation skipped (Vercel preview deployment)')
+  process.exit(0)
+}
+
+// Skip if explicitly in development mode
+if (process.env.NODE_ENV === 'development') {
+  console.log('⏭  ENV validation skipped (development mode)')
+  process.exit(0)
+}
+
 const required = {
   NEXT_PUBLIC_SUPABASE_URL: {
     validate: (v) => v.startsWith('https://') && v.includes('.supabase.co'),
