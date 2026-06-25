@@ -1,0 +1,109 @@
+name: Post-Deploy Health Check
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [vercel-deploy-success]
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Wait for Vercel deploy to propagate
+        run: sleep 30
+
+      - name: Hit /api/health endpoint
+        id: health
+        run: |
+          HEALTH_URL="https://tcu-market-kitchen-terminal.vercel.app/api/health"
+          echo "Checking: $HEALTH_URL"
+
+          RESPONSE=$(curl -s -w "\n%{http_code}" "$HEALTH_URL" || true)
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+
+          echo "HTTP Status: $HTTP_CODE"
+          echo "Response:"
+          echo "$BODY" | jq . 2>/dev/null || echo "$BODY"
+
+          # Extract status field
+          STATUS=$(echo "$BODY" | jq -r '.status' 2>/dev/null || echo "unknown")
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "$BODY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "http_code=$HTTP_CODE" >> $GITHUB_OUTPUT
+
+      - name: Generate health report
+        run: |
+          STATUS="${{ steps.health.outputs.status }}"
+          BODY='${{ steps.health.outputs.body }}'
+          HTTP_CODE="${{ steps.health.outputs.http_code }}"
+          TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M:%S UTC')
+
+          mkdir -p Agents/relay/outbox
+
+          if [ "$STATUS" = "healthy" ]; then
+            cat > Agents/relay/outbox/TASK-011-HEALTH-PASS.md << REPORT
+          # Health Check PASSED
+
+          **Timestamp:** $TIMESTAMP
+          **Project:** tcu-market-kitchen
+          **URL:** https://tcu-market-kitchen-terminal.vercel.app/api/health
+          **HTTP:** $HTTP_CODE
+          **Status:** $STATUS
+
+          All integrations connected. No action needed.
+          REPORT
+
+            echo "✅ Health check PASSED — all integrations healthy"
+
+          else
+            # Parse failing integrations
+            SUPABASE_ERR=$(echo "$BODY" | jq -r '.integrations.supabase.error // empty' 2>/dev/null)
+            BEEHIIV_ERR=$(echo "$BODY" | jq -r '.integrations.beehiiv.error // empty' 2>/dev/null)
+            STRIPE_ERR=$(echo "$BODY" | jq -r '.integrations.stripe.error // empty' 2>/dev/null)
+
+            cat > Agents/relay/outbox/TASK-011-HEALTH-FAIL.md << REPORT
+          # Health Check FAILED
+
+          **Timestamp:** $TIMESTAMP
+          **Project:** tcu-market-kitchen
+          **URL:** https://tcu-market-kitchen-terminal.vercel.app/api/health
+          **HTTP:** $HTTP_CODE
+          **Status:** $STATUS
+
+          ## Failing Integrations
+
+          | Integration | Error |
+          |---|---|
+          | Supabase | ${SUPABASE_ERR:-OK} |
+          | Beehiiv | ${BEEHIIV_ERR:-OK} |
+          | Stripe | ${STRIPE_ERR:-OK} |
+
+          ## What Maurice Needs to Fix
+
+          1. Go to: https://vercel.com/mysterycartel-hub/tcu-market-kitchen-terminal/settings/environment-variables
+          2. Fix the variable(s) shown as broken above
+          3. Redeploy (or push a commit)
+          4. Re-run this workflow to confirm
+
+          See ENV-SETUP.md for where to find correct values.
+          REPORT
+
+            echo "❌ Health check FAILED — status: $STATUS"
+            # Don't fail the workflow — we want the report committed
+          fi
+
+      - name: Commit health report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Agents/relay/outbox/TASK-011-HEALTH-*.md 2>/dev/null || true
+          git diff --staged --quiet || git commit -m "ci: post-deploy health check report [skip ci]"
+          git push || echo "Push failed — report generated but not committed"
