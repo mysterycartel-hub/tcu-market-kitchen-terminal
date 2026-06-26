@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "TCU Market Kitchen Terminal",
-  description: "Trading Chef University practice terminal for chart education, missions, and progress tracking.",
+  description: "Trading Chef University — chart education, academy, and progress tracking platform.",
 };
 
 export default function RootLayout({
@@ -26,9 +26,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-[#060608] text-[#f5f0e8]">
         <TCUProgressProvider>{children}</TCUProgressProvider>
       </body>
     </html>

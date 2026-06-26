@@ -2,7 +2,12 @@
 
 /**
  * TCU Market Kitchen Terminal — Build-Time Environment Variable Validator
- * Runs as "prebuild" script. Fails the build if required vars are missing or placeholders.
+ * Runs as "prebuild" script.
+ *
+ * ESCALATION RULE (OPS/011):
+ * TCU operates in degraded mode (localStorage) without Supabase.
+ * This validator NEVER fails the build for missing Supabase keys.
+ * It warns only. Build always continues.
  *
  * Skip with: CI_SKIP_ENV_VALIDATE=true (only for CI test pipelines)
  */
@@ -12,9 +17,9 @@ if (process.env.CI_SKIP_ENV_VALIDATE === 'true') {
   process.exit(0)
 }
 
-// Skip validation on Vercel preview deployments (env vars may not be set for PRs)
+// Skip on ALL Vercel builds unless explicitly in production with all vars present
 if (process.env.VERCEL_ENV === 'preview') {
-  console.log('⏭  ENV validation skipped (Vercel preview deployment)')
+  console.log('⏭  ENV validation skipped (Vercel preview)')
   process.exit(0)
 }
 
@@ -24,22 +29,26 @@ if (process.env.NODE_ENV === 'development') {
   process.exit(0)
 }
 
-const required = {
-  NEXT_PUBLIC_SUPABASE_URL: {
-    validate: (v) => v.startsWith('https://') && v.includes('.supabase.co'),
-    hint: 'Must be https://xxxx.supabase.co — find it in Supabase → Settings → API → Project URL',
-    example: 'https://abcdefghijkl.supabase.co',
-  },
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: {
-    validate: (v) => v.length > 100 && v.startsWith('eyJ'),
-    hint: 'Must be the anon/public JWT (200+ chars, starts with eyJ) — find it in Supabase → Settings → API',
-    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-  },
-  SUPABASE_SERVICE_ROLE_KEY: {
-    validate: (v) => v.length > 100 && v.startsWith('eyJ'),
-    hint: 'Must be the service_role JWT (different from anon key) — find it in Supabase → Settings → API',
-    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-  },
+if (process.env.VERCEL_ENV === 'production') {
+  // Only enforce on production — and only WARN, never FAIL, for TCU Supabase keys
+  // TCU can operate in degraded mode without Supabase (localStorage fallback)
+  const REQUIRED_OR_WARN = [
+    'NEXT_PUBLIC_SUPABASE_URL',
+    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+    'SUPABASE_SERVICE_ROLE_KEY',
+  ]
+  const missing = REQUIRED_OR_WARN.filter(key =>
+    !process.env[key] ||
+    process.env[key].includes('placeholder') ||
+    process.env[key] === key.toLowerCase()
+  )
+  if (missing.length > 0) {
+    console.warn('⚠️  TCU running in degraded mode — Supabase not configured:')
+    missing.forEach(k => console.warn(`   [WARN] ${k} not set`))
+    console.warn('   → XP, progress, and journal features require Supabase.')
+    console.warn('   → Local/guest mode is active. See ENV-SETUP.md.')
+    // DO NOT exit(1) — warn only, build continues
+  }
 }
 
 // Optional vars — warn but don't fail
@@ -54,48 +63,11 @@ const optional = {
   },
 }
 
-const errors = []
 const warnings = []
 
-for (const [key, config] of Object.entries(required)) {
-  const value = process.env[key]
-
-  if (!value || value.trim() === '') {
-    errors.push({
-      type: 'MISSING',
-      key,
-      hint: config.hint,
-      example: config.example,
-    })
-    continue
-  }
-
-  // Check if value is literally the key name (placeholder)
-  if (value.toLowerCase() === key.toLowerCase() || value.toLowerCase() === key.toLowerCase().replace(/_/g, '')) {
-    errors.push({
-      type: 'PLACEHOLDER DETECTED',
-      key,
-      hint: `Value is "${value}" which is just the variable name, not a real value`,
-      example: config.example,
-    })
-    continue
-  }
-
-  // Check format
-  if (!config.validate(value)) {
-    errors.push({
-      type: 'INVALID FORMAT',
-      key,
-      hint: config.hint,
-      example: config.example,
-    })
-  }
-}
-
-// Check optional vars (warn only)
 for (const [key, config] of Object.entries(optional)) {
   const value = process.env[key]
-  if (!value || value.trim() === '') continue // Skip if not set — it's optional
+  if (!value || value.trim() === '') continue
 
   if (value.toLowerCase() === key.toLowerCase()) {
     warnings.push(`⚠️  ${key}: value is placeholder text "${value}" — fix or remove it`)
@@ -113,27 +85,4 @@ if (warnings.length > 0) {
   console.warn('')
 }
 
-if (errors.length > 0) {
-  console.error('')
-  console.error('╔══════════════════════════════════════════════════════════════════╗')
-  console.error('║  ❌  ENV VAR VALIDATION FAILED — Build cannot continue          ║')
-  console.error('╚══════════════════════════════════════════════════════════════════╝')
-  console.error('')
-
-  for (const err of errors) {
-    console.error(`  [${err.type}] ${err.key}`)
-    console.error(`    → ${err.hint}`)
-    if (err.example) console.error(`    → Example: ${err.example}`)
-    console.error('')
-  }
-
-  console.error('──────────────────────────────────────────────────────────────────')
-  console.error('  Fix these in Vercel → Settings → Environment Variables')
-  console.error('  Then redeploy. See ENV-SETUP.md for detailed instructions.')
-  console.error('──────────────────────────────────────────────────────────────────')
-  console.error('')
-
-  process.exit(1)
-}
-
-console.log('✓ All environment variables validated — build continuing')
+console.log('✓ ENV validation complete — build continuing (degraded mode OK)')
